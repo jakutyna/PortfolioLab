@@ -1,6 +1,8 @@
-## PortfolioLab
+## Clothes charity
 
-CodersLab __PortfolioLab__ project.
+__Clothes Charity__ is a CodersLab PortfolioLab project created with Django framework and JavaScript.
+
+The purpose of the project is to create a web app for donating unused clothes to trusted charity institutions.
 
 ### Requirements
 
