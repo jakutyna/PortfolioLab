@@ -11,6 +11,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = "Categories"
 
+
 class Institution(models.Model):
     FOUNDATION = 1
     NGO = 2
@@ -39,7 +40,7 @@ class Donation(models.Model):
     zip_code = models.CharField(max_length=64)
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
-    pick_up_comment = models.TextField()
+    pick_up_comment = models.TextField(null=True, blank=True)
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, default=None)
