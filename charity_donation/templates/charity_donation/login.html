@@ -14,7 +14,10 @@
           <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
         </div>
 
-        {% include 'charity_donation/login_register_buttons.html' %}
+        <div class="form-group form-group--buttons">
+            <a href="{% url 'register' %}" class="btn btn--without-border">Załóż konto</a>
+            <button class="btn" type="submit">Zaloguj się</button>
+        </div>
       </form>
     </section>
 {% endblock %}

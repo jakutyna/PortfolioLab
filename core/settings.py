@@ -93,6 +93,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Custom user
+AUTH_USER_MODEL = 'charity_donation.CustomUser'
+
+# Custom authentication backend
+AUTHENTICATION_BACKENDS = ['charity_donation.backends.EmailBackend']
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

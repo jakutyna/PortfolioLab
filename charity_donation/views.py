@@ -1,8 +1,11 @@
 from django.db.models import Sum
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic.edit import CreateView
 
-from .models import Donation, Institution
+from .forms import RegisterForm
+from .models import CustomUser, Donation, Institution
 
 
 class LandingPageView(View):
@@ -32,6 +35,10 @@ class LoginView(View):
         return render(request, 'charity_donation/login.html', {})
 
 
-class RegisterView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'charity_donation/register.html', {})
+class RegisterView(CreateView):
+    form_class = RegisterForm
+    template_name = 'charity_donation/register.html'
+    success_url = reverse_lazy('login')
+
+    # def get(self, request, *args, **kwargs):
+    #     return render(request, 'charity_donation/register.html', {})

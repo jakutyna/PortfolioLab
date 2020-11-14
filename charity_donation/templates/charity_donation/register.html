@@ -5,24 +5,17 @@
 {% block content %}
     <section class="login-page">
       <h2>Załóż konto</h2>
-      <form>
-        <div class="form-group">
-          <input type="text" name="name" placeholder="Imię" />
-        </div>
-         <div class="form-group">
-          <input type="text" name="surname" placeholder="Nazwisko" />
-        </div>
-        <div class="form-group">
-          <input type="email" name="email" placeholder="Email" />
-        </div>
-        <div class="form-group">
-          <input type="password" name="password" placeholder="Hasło" />
-        </div>
-        <div class="form-group">
-          <input type="password" name="password2" placeholder="Powtórz hasło" />
-        </div>
+      <form method="post">{% csrf_token %}
+        {% for input in form %}
+            <div class="form-group">
+                {{ input }}
+            </div>
+        {% endfor %}
 
-        {% include 'charity_donation/login_register_buttons.html' %}
+        <div class="form-group form-group--buttons">
+            <a href="{% url 'login' %}" class="btn btn--without-border">Zaloguj się</a>
+            <button class="btn" type="submit">Zalóż konto</button>
+        </div>
       </form>
     </section>
 {% endblock %}
