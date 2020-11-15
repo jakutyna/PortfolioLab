@@ -2,9 +2,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelector("header").classList.add("header--main-page");
 
-    const registerButton = document.querySelector(".nav--actions").lastElementChild.firstElementChild
-    registerButton.classList.add("btn--highlighted");
-    registerButton.classList.remove("btn--without-border");
+    if (document.querySelector(".nav--actions").firstElementChild.classList[0] !== "logged-user") {
+        const registerButton = document.querySelector(".nav--actions").lastElementChild.firstElementChild
+        registerButton.classList.add("btn--highlighted");
+        registerButton.classList.remove("btn--without-border");
+    }
 
     const navLinks = Array.from(document.querySelector(".nav--actions").nextElementSibling.children)
 

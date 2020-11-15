@@ -17,7 +17,6 @@ from etc.local_settings import DATABASES
 # Build paths inside the project like this: BASE_DIR / ...
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -29,7 +28,6 @@ with open(BASE_DIR / 'etc/secret_key.txt') as f:
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -73,8 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -99,7 +95,6 @@ AUTH_USER_MODEL = 'charity_donation.CustomUser'
 # Custom authentication backend
 AUTHENTICATION_BACKENDS = ['charity_donation.backends.EmailBackend']
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -113,14 +108,18 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
-
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+
+# The URL where requests are redirected after successful authentication
+LOGIN_REDIRECT_URL = 'landing_page'
+
+# The URL where requests are redirected after logout
+LOGOUT_REDIRECT_URL = 'landing_page'
