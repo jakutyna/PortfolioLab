@@ -118,6 +118,9 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
+# The URL where requests are redirected when using the login_required() decorator or LoginRequiredMixin
+LOGIN_URL = 'login'
+
 # The URL where requests are redirected after successful authentication
 LOGIN_REDIRECT_URL = 'landing_page'
 

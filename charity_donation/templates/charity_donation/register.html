@@ -6,10 +6,27 @@
     <section class="login-page">
       <h2>Załóż konto</h2>
       <form method="post">{% csrf_token %}
-        {% for input in form %}
-            <div class="form-group">
-                {{ input }}
+
+          {% for error in form.non_field_errors %}
+            <div class="form-group--error">
+               <p>{{ error|escape }}</p>
             </div>
+          {% endfor %}
+
+        {% for input in form %}
+
+          {% if input.errors %}
+            {% for error in input.errors %}
+              <div class="form-group--error">
+                  <p>{{ error|escape }}</p>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <div class="form-group">
+            {{ input }}
+          </div>
+
         {% endfor %}
 
         <div class="form-group form-group--buttons">
