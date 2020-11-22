@@ -210,8 +210,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
       });
 
-      // Form submit
-      this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+      // Form submit - TODO: uncomment when form validation is added
+//      this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
     }
 
     /**
@@ -231,10 +231,56 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       });
 
-      this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
-      this.$step.parentElement.hidden = this.currentStep >= 6;
 
-      // TODO: get data from inputs and show them in summary
+//      this.$form.hidden = this.currentStep >= 6;
+//      this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
+//      this.$step.parentElement.hidden = this.currentStep >= 6;
+
+      // Form summary
+      if (this.currentStep == 5)    {
+          this.serializedForm = $(this.$form.querySelector("form")).serialize();
+          const serializedFormArray = $(this.$form.querySelector("form")).serializeArray();
+          let serializedFormDict = {};
+          serializedFormDict["categories"] = [];
+
+          serializedFormArray.forEach(el => {
+            if (el.name === "categories") {
+                serializedFormDict["categories"].push(el.value);
+            }
+            else {
+                serializedFormDict[el.name] = el.value;
+            }
+          });
+          this.formSummary(serializedFormDict);
+      }
+    }
+
+    /**
+     * Update view of last form step with data from form
+     */
+    formSummary(summaryArr) {
+
+        summaryArr.categories.forEach(cat => {
+            const catDescr = $(`input[name='categories'][value='${cat}']`).siblings().last().text();
+            $("#categories").append(catDescr + ", ");
+        });
+
+        $("#institution").text(
+                $(`input[name='institution'][value='${summaryArr.institution}']`).parent().find('.title').text());
+        $("#quantity").text(summaryArr.quantity);
+        $("#address").text(summaryArr.address);
+        $("#city").text(summaryArr.city);
+        $("#zip-code").text(summaryArr.zip_code);
+        $("#phone-number").text(summaryArr.phone_number);
+        $("#pick-up-date").text(summaryArr.pick_up_date);
+        $("#pick-up-time").text(summaryArr.pick_up_time);
+
+        if (summaryArr.pick_up_comment === "") {
+            $("#pick-up-comment").text("Brak uwag");
+        }
+        else {
+            $("#pick-up-comment").text(summaryArr.pick_up_comment);
+        }
     }
 
     /**
@@ -242,14 +288,20 @@ document.addEventListener("DOMContentLoaded", function() {
      *
      * TODO: validation, send data to server
      */
-    submit(e) {
-      e.preventDefault();
-      this.currentStep++;
-      this.updateForm();
-    }
+//    submit(e) {
+//      e.preventDefault();
+//      this.currentStep++;
+//      $.post("", this.serializedForm, function(data){
+//            // Display the returned data in browser
+//            $(".container--90").html(data);
+//        });
+//      this.updateForm();
+//    }
   }
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
   }
+
+
 });

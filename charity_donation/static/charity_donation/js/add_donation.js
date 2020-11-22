@@ -16,18 +16,22 @@ document.addEventListener("DOMContentLoaded", function() {
 //                     checkboxInnerText + "</span>");
 //    })
 
-    const stepThreeCheckboxes = document.querySelectorAll("[data-step='3']")[1].querySelectorAll(".form-group--checkbox");
+    const stepThree = document.querySelectorAll("[data-step='3']")
+    if (stepThree[1] !== undefined) {
+            const stepThreeCheckboxes = stepThree[1].querySelectorAll(".form-group--checkbox");
 
-    Array.from(stepThreeCheckboxes).forEach(el => {
+            [...stepThreeCheckboxes].forEach(el => {
 
-        const checkboxLabel = el.querySelector(".title")
-        const checkboxDescr = el.querySelector(".subtitle")
+            const checkboxLabel = el.querySelector(".title")
+            const checkboxDescr = el.querySelector(".subtitle")
 
-        let labelSplit = checkboxLabel.innerText.split("<br>")
+            let labelSplit = checkboxLabel.innerText.split("<br>")
 
-        checkboxLabel.innerText = labelSplit[0]
-        checkboxDescr.innerText += labelSplit[1]
+            checkboxLabel.innerText = labelSplit[0]
+            checkboxDescr.innerText += labelSplit[1]
 
-    })
+        })
+    }
+
 
 })

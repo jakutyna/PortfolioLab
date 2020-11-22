@@ -16,6 +16,7 @@ class LandingPageView(View):
         institutions = Institution.objects.all()
         bags_number = donations.aggregate(Sum('quantity'))['quantity__sum']
 
+        # Only institutions to which donations were made are listed
         institutions_number = len(list(dict.fromkeys([donation.institution for donation in donations])))
 
         ctx = {
@@ -26,15 +27,17 @@ class LandingPageView(View):
         return render(request, 'charity_donation/index.html', ctx)
 
 
-class AddDonationView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        form = DonationForm()
+class AddDonationView(LoginRequiredMixin, CreateView):
+    template_name = 'charity_donation/add_donation.html'
+    form_class = DonationForm
 
-        return render(request, 'charity_donation/add_donation.html', {'form': form})
-        # return render(request, 'charity_donation/form-confirmation.html', {})
-
-    def post(self, request, ):
-        return render(request, 'charity_donation/form-confirmation.html', {})
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user  # Fill user field in model instance
+        self.object.save()
+        form.save_m2m()
+        return render(self.request, 'charity_donation/donation_confirmation.html',
+                      self.get_context_data())  # Render form confirmation
 
 
 class LoginView(auth_views.LoginView):

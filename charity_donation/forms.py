@@ -80,7 +80,7 @@ class DonationForm(forms.ModelForm):
     class Meta:
         model = Donation
         fields = ('quantity', 'address', 'phone_number', 'city', 'zip_code', 'pick_up_date',
-                  'pick_up_time', 'pick_up_comment', 'categories', 'institution', 'user')
+                  'pick_up_time', 'pick_up_comment', 'categories', 'institution')
         widgets = {
             'quantity': forms.NumberInput(attrs={'min': 1, 'step': 1}),
             'pick_up_date': CustomDateInput(),
@@ -89,13 +89,11 @@ class DonationForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(DonationForm, self).__init__()
+        super(DonationForm, self).__init__(*args, **kwargs)
 
         self.fields['categories'] = \
             forms.ModelMultipleChoiceField(queryset=Category.objects.all(),
                                            widget=forms.CheckboxSelectMultiple)
-
-        # self.fields['quantity'].widget = forms.NumberInput(attrs={'min': 1, 'step': 1})
 
         self.fields['institution'] = \
             MyModelChoiceField(queryset=Institution.objects.all(),
