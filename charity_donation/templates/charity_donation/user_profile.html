@@ -1,0 +1,58 @@
+{% extends 'charity_donation/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <section class="profile">
+      <h2>Twój profil</h2>
+
+
+
+          <div class="profile--data">
+              <ul class="profile--data-items">
+                  <li>
+                      <div class="title">Imię: {{ user.first_name }}</div>
+                  </li>
+                  <li>
+                      <div class="title">Nazwisko: {{ user.last_name }}</div>
+                  </li>
+                  <li>
+                      <div class="title">Email: {{ user.email }}</div>
+                  </li>
+                  <li>
+                      <div class="title">Przekazane dary:</div>
+                      <ul>
+                          {% for donation in donations %}
+                          <li>
+                            <div class="col">
+                                <div class="title">
+                                  {{ donation.quantity }} worków dla:<br>
+                                  {{ donation.institution}}</div>
+                                <div class="subtitle">
+                                    Data odbioru:
+                                    {{donation.pick_up_date}} {{donation.pick_up_time}} <br>
+                                    {% for category in donation.categories.all %}
+                                        {{ category }},
+                                    {% endfor %}
+                                </div>
+                            </div>
+                          </li>
+                          {% endfor %}
+                      </ul>
+                  </li>
+              </ul>
+          </div>
+
+
+<!--        <div class="form-group form-group&#45;&#45;buttons">-->
+<!--            <a href="{% url 'register' %}" class="btn btn&#45;&#45;without-border">Załóż konto</a>-->
+<!--            <button class="btn" type="submit">Zaloguj się</button>-->
+<!--        </div>-->
+
+    </section>
+{% endblock %}
+
+{% block js %}{% endblock %}
+
+
+

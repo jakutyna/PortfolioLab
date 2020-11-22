@@ -70,3 +70,9 @@ class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'charity_donation/register.html'
     success_url = reverse_lazy('login')
+
+
+class UserProfileView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        donations = Donation.objects.filter(user=request.user)
+        return render(request, 'charity_donation/user_profile.html', {"donations": donations})
