@@ -1,9 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser, User
+
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
 
     def __str__(self):
         return self.name
@@ -29,7 +34,7 @@ class Institution(models.Model):
     categories = models.ManyToManyField(Category)
 
     def __str__(self):
-        return self.name
+        return "{} \"{}\" ".format(self.get_type_display(), self.name).capitalize()
 
 
 class Donation(models.Model):
@@ -43,4 +48,4 @@ class Donation(models.Model):
     pick_up_comment = models.TextField(null=True, blank=True)
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, default=None)

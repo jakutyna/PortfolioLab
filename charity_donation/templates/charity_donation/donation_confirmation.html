@@ -14,10 +14,6 @@
     </li>
 {% endblock %}
 
-{% block add-js %}
-    <script src="{% static 'charity_donation/js/form.js' %}"></script>
-{% endblock %}
-
 {% block header %}
     <div class="slogan container container--90">
         <h2>
@@ -25,4 +21,8 @@
           informacje o odbiorze.
         </h2>
     </div>
+{% endblock %}
+
+{% block add-js %}
+    <script src="{% static 'charity_donation/js/add_donation.js' %}"></script>
 {% endblock %}
