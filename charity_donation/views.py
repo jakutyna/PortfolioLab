@@ -74,5 +74,5 @@ class RegisterView(CreateView):
 
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        donations = Donation.objects.filter(user=request.user)
+        donations = Donation.objects.filter(user=request.user).order_by('-pick_up_date')
         return render(request, 'charity_donation/user_profile.html', {"donations": donations})
