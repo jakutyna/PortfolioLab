@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
@@ -49,3 +49,11 @@ class Donation(models.Model):
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, default=None)
+
+    @property
+    def name(self):
+        """User-friendly display of Donation instance name"""
+        return "Donation to: {}".format(self.institution)
+
+    def __str__(self):
+        return self.name
