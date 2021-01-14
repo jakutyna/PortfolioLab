@@ -47,6 +47,7 @@ class Donation(models.Model):
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField(null=True, blank=True)
     categories = models.ManyToManyField(Category)
+    is_taken = models.BooleanField(default=False)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, default=None)
 

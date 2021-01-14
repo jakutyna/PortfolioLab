@@ -8,7 +8,7 @@ from django import forms
 from .models import Category, Donation, Institution
 
 
-class MyModelChoiceField(forms.ModelChoiceField):
+class CustomModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return "{}<br> {}".format(obj, obj.description)
 
@@ -96,5 +96,19 @@ class DonationForm(forms.ModelForm):
                                            widget=forms.CheckboxSelectMultiple)
 
         self.fields['institution'] = \
-            MyModelChoiceField(queryset=Institution.objects.all(),
-                               widget=forms.RadioSelect, empty_label=None)
+            CustomModelChoiceField(queryset=Institution.objects.all(),
+                                   widget=forms.RadioSelect, empty_label=None)
+
+
+class IsTakenForm(forms.Form):
+    """ Form for setting 'is_taken' field in Donation model instances """
+
+    def __init__(self, queryset, *args, **kwargs):
+        super(IsTakenForm, self).__init__(*args, **kwargs)
+
+        # ModelMultipleChoiceField used instead of BooleanField
+        # to be able to set 'is_taken' field for multiple Donation instances at once
+        self.fields['is_taken'] = forms.ModelMultipleChoiceField(queryset=queryset,
+                                                                 widget=forms.CheckboxSelectMultiple)
+
+        self.fields['is_taken'].initial = queryset.filter(is_taken=True).values_list('id', flat=True)

@@ -21,24 +21,30 @@
                   </li>
                   <li>
                       <div class="title">Przekazane dary:</div>
-                      <ul>
-                          {% for donation in donations %}
-                          <li>
-                            <div class="col">
-                                <div class="title">
-                                  {{ donation.quantity }} worków dla:<br>
-                                  {{ donation.institution}}</div>
-                                <div class="subtitle">
-                                    Data odbioru:
-                                    {{donation.pick_up_date}} {{donation.pick_up_time}} <br>
-                                    {% for category in donation.categories.all %}
-                                        {{ category }},
-                                    {% endfor %}
+                      <form method="post">{% csrf_token %}
+                          <ul>
+
+                              {% for field in form_and_donations %}
+                              <li>
+                                <div class="col">
+                                    <div class="title">
+                                      {{ field.donation.quantity }} worków dla:<br>
+                                      {{ field.donation.institution}}</div>
+                                    <div class="subtitle">
+                                        Data odbioru:
+                                        {{field.donation.pick_up_date}}
+                                        {{field.donation.pick_up_time}} <br>
+                                        {% for category in field.donation.categories.all %}
+                                            {{ category }},
+                                        {% endfor %} <br><br>
+                                        {{field.is_taken.tag}} Odebrane
+                                    </div>
                                 </div>
-                            </div>
-                          </li>
-                          {% endfor %}
-                      </ul>
+                              </li>
+                              {% endfor %}
+
+                          </ul>
+                      </form>
                   </li>
               </ul>
           </div>

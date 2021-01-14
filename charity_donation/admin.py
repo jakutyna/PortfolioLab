@@ -11,4 +11,4 @@ admin.site.register(Institution)
 
 @admin.register(Donation)
 class DonationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'user')
+    list_display = ('name', 'user', 'is_taken')

@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import CreateView
 
-from .forms import LoginForm, RegisterForm, DonationForm
+from .forms import DonationForm, IsTakenForm, LoginForm, RegisterForm
 from .models import Donation, Institution
 
 
@@ -74,5 +74,16 @@ class RegisterView(CreateView):
 
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        donations = Donation.objects.filter(user=request.user).order_by('-pick_up_date')
-        return render(request, 'charity_donation/user_profile.html', {"donations": donations})
+        donations = Donation.objects.filter(user=request.user).order_by('is_taken', '-pick_up_date')
+        form = IsTakenForm(queryset=donations)
+
+        form_and_donations = [{'is_taken': form['is_taken'][idx], 'donation': donation}
+                              for idx, donation in enumerate(donations)]
+        # for idx, donation in enumerate(donations):
+        #     donations_and_form.append({'is_taken': })
+        ctx = {
+            'form': form,
+            'donations': donations,
+            'form_and_donations': form_and_donations
+        }
+        return render(request, 'charity_donation/user_profile.html', ctx)
