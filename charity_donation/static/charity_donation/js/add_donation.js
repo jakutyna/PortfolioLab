@@ -1,37 +1,27 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+    // Adds header class specific for this page
     document.querySelector("header").classList.add("header--form-page");
 
-//    const stepOneCheckboxes = document.querySelectorAll("[data-step='1']")[1].querySelectorAll(".form-group--checkbox");
-//
-//    Array.from(stepOneCheckboxes).forEach(el => {
-//        const checkboxLabel = el.firstElementChild;
-//        const checkboxInput = checkboxLabel.firstElementChild;
-//        const checkboxInnerText = checkboxLabel.innerText;
-//
-//        console.log(checkboxInput.outerHTML + "\n<span class='checkbox'></span>\n<span class='description'>" +
-//                     checkboxInnerText + "</span>");
-//
-//        checkboxLabel.innerHTML = (checkboxInput.outerHTML + "\n<span class='checkbox'></span>\n<span class='description'>" +
-//                     checkboxInnerText + "</span>");
-//    })
 
-    const stepThree = document.querySelectorAll("[data-step='3']")
-    if (stepThree[1] !== undefined) {
-            const stepThreeCheckboxes = stepThree[1].querySelectorAll(".form-group--checkbox");
+    // Step 3 in donation form
+    const stepThree = document.querySelector("div[data-step='3']")
 
-            [...stepThreeCheckboxes].forEach(el => {
+    // Splits form fields labels to different tags so they are properly displayed on page
+     if (stepThree !== undefined) {
+             const stepThreeCheckboxes = stepThree.querySelectorAll(".form-group--checkbox");
 
-            const checkboxLabel = el.querySelector(".title")
-            const checkboxDescr = el.querySelector(".subtitle")
+             // ... - unpacks iterable (here I use it to convert querySelectorAll object to list
+             [...stepThreeCheckboxes].forEach(el => {
 
-            let labelSplit = checkboxLabel.innerText.split("<br>")
+             const checkboxLabel = el.querySelector(".title")
+             const checkboxDescr = el.querySelector(".subtitle")
 
-            checkboxLabel.innerText = labelSplit[0]
-            checkboxDescr.innerText += labelSplit[1]
+             let labelSplit = checkboxLabel.innerText.split("<br>")
 
-        })
-    }
-
+             checkboxLabel.innerText = labelSplit[0]
+             checkboxDescr.innerText += labelSplit[1]
+         })
+     }
 
 })

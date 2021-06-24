@@ -3,17 +3,6 @@
 
 {% block title %}Add donation{% endblock %}
 
-{% block nav-login %}
-    <li class="logged-user">
-      Witaj Agata
-      <ul class="dropdown">
-        <li><a href="">Profil</a></li>
-        <li><a href="">Ustawienia</a></li>
-        <li><a href="">Wyloguj</a></li>
-      </ul>
-    </li>
-{% endblock %}
-
 {% block header %}
     <div class="slogan container container--90">
       <div class="slogan--item">
@@ -25,17 +14,18 @@
         <div class="slogan--steps">
           <div class="slogan--steps-title">Wystarczą 4 proste kroki:</div>
           <ul class="slogan--steps-boxes">
+            {# TODO: links navigate to correct step - JS code #}
             <li>
-              <div><em>1</em><span>Wybierz rzeczy</span></div>
+              <div><em>1</em><span><a href="#steps">Wybierz rzeczy</a></span></div>
             </li>
             <li>
-              <div><em>2</em><span>Spakuj je w worki</span></div>
+              <div><em>2</em><span><a href="#steps">Spakuj je w worki</a></span></div>
             </li>
             <li>
-              <div><em>3</em><span>Wybierz fundację</span></div>
+              <div><em>3</em><span><a href="#steps">Wybierz fundację</a></span></div>
             </li>
             <li>
-              <div><em>4</em><span>Zamów kuriera</span></div>
+              <div><em>4</em><span><a href="#steps">Zamów kuriera</a></span></div>
             </li>
           </ul>
         </div>
@@ -65,10 +55,12 @@
         </div>
       </div>
 
-      <div class="form--steps-container">
+      {# Donation steps #}
+      <div class="form--steps-container" id="steps">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
         <form action="" method="post"> {% csrf_token %}
+
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
@@ -104,8 +96,6 @@
               <button type="button" class="btn next-step">Dalej</button>
             </div>
           </div>
-
-
 
           <!-- STEP 3 -->
           <div data-step="3">

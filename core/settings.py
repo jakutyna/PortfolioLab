@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 from pathlib import Path
 
+# Database settings in separate file
 from etc.local_settings import DATABASES
 
 # Build paths inside the project like this: BASE_DIR / ...
@@ -38,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'charity_donation',
+    'charity_donation.apps.CharityDonationConfig',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.locale.LocaleMiddleware',    # Translation e.g. for date and time, form errors etc.
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -93,7 +94,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Custom user
 AUTH_USER_MODEL = 'charity_donation.CustomUser'
 
-# Custom authentication backend
+# Custom authentication backend - authentication by email
 AUTHENTICATION_BACKENDS = ['charity_donation.backends.EmailBackend']
 
 # Internationalization
@@ -114,16 +115,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# The list of finder backends that know how to find static files in various locations.
 STATICFILES_FINDERS = [
+    # Searches in 'static' subdirectory of each app.
     'django.contrib.staticfiles.finders.FileSystemFinder',
+    # Behaviour for static files with the same name - first that is found will be used.
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-# The URL where requests are redirected when using the login_required() decorator or LoginRequiredMixin
+# The URL where requests are redirected when using the login_required() decorator or LoginRequiredMixin.
 LOGIN_URL = 'login'
 
-# The URL where requests are redirected after successful authentication
+# The URL where requests are redirected after successful authentication.
 LOGIN_REDIRECT_URL = 'landing_page'
 
-# The URL where requests are redirected after logout
+# The URL where requests are redirected after logout.
 LOGOUT_REDIRECT_URL = 'landing_page'

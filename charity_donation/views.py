@@ -11,16 +11,23 @@ from .models import Donation, Institution
 
 
 class LandingPageView(View):
+    """
+    View for charity_donation app main page
+    (with some summaries of data from db displayed).
+    """
+
     def get(self, request, *args, **kwargs):
         donations = Donation.objects.all()
         institutions = Institution.objects.all()
+
+        # Sum of bags quantity from all Donation model instances.
         bags_number = donations.aggregate(Sum('quantity'))['quantity__sum']
 
-        # Only institutions to which donations were made are listed
-        institutions_number = len(list(dict.fromkeys([donation.institution for donation in donations])))
+        # Only institutions to which donations were made are counted.
+        institutions_number = len({donation.institution for donation in donations})  # Set created to remove duplicates.
 
         ctx = {
-            "bags_num": 0 if bags_number is None else bags_number,
+            "bags_num": 0 if bags_number is None else bags_number,  # To avoid displaying 'None'
             "institutions_num": institutions_number,
             "institutions": institutions,
         }
@@ -33,11 +40,11 @@ class AddDonationView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.user = self.request.user  # Fill user field in model instance
+        self.object.user = self.request.user  # Fill user field in Donation model instance.
         self.object.save()
         form.save_m2m()
         return render(self.request, 'charity_donation/donation_confirmation.html',
-                      self.get_context_data())  # Render form confirmation
+                      self.get_context_data())  # Render form confirmation.
 
 
 class LoginView(auth_views.LoginView):
@@ -52,11 +59,11 @@ class LoginView(auth_views.LoginView):
         If user with given email does not exist redirect to registration page.
         If password is invalid, render the invalid form.
         """
-        username = self.request.POST['email']
+        email = self.request.POST['email']
         UserModel = get_user_model()
 
         try:
-            UserModel.objects.get(email=username)
+            UserModel.objects.get(email=email)
         except UserModel.DoesNotExist:
             return redirect('register')
         return self.render_to_response(self.get_context_data(form=form))
@@ -75,12 +82,14 @@ class RegisterView(CreateView):
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         donations = Donation.objects.filter(user=request.user).order_by('is_taken', '-pick_up_date')
+
+        # queryset with sorted donations passed to form - it is used by ModelMultipleChoiceField
         form = IsTakenForm(queryset=donations)
 
+        # TODO: Add comment
         form_and_donations = [{'is_taken': form['is_taken'][idx], 'donation': donation}
                               for idx, donation in enumerate(donations)]
-        # for idx, donation in enumerate(donations):
-        #     donations_and_form.append({'is_taken': })
+
         ctx = {
             'form': form,
             'donations': donations,

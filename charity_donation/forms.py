@@ -10,16 +10,25 @@ from .models import Category, Donation, Institution
 
 class CustomModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
+        """Extends ModelChoiceField labels TODO: explain further."""
         return "{}<br> {}".format(obj, obj.description)
 
 
 class CustomDateInput(forms.DateInput):
-    """Modified input type for date inputs"""
+    """
+    Modified input type for date inputs in forms (from default 'text' type).
+
+    For nicer displaying of date field in browser.
+    """
     input_type = 'date'
 
 
 class CustomTimeInput(forms.DateInput):
-    """Modified input type for time inputs"""
+    """
+    Modified input type for time inputs in forms (from default 'text' type).
+
+    For nicer displaying of time field in browser.
+    """
     input_type = 'time'
 
 
@@ -39,9 +48,10 @@ class RegisterForm(UserCreationForm):
 
     def save(self, commit=True):
         """
-        Modified UserCreationForm save method
+        Modified UserCreationForm save method.
 
         Creates username based on first 5 letters of email local-part and 25 random letters
+        (username is not used for authentication in this project but is required by User model).
         """
 
         email_local_part = self.cleaned_data['email'].split('@')[0]
@@ -62,7 +72,7 @@ class LoginForm(AuthenticationForm):
         self.error_messages['invalid_login'] = 'Podaj poprawny email i hasło.'
 
     def clean(self):
-        # username for authentication replaced with email
+        # Username for authentication replaced with email.
         username = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
 
@@ -83,8 +93,8 @@ class DonationForm(forms.ModelForm):
                   'pick_up_time', 'pick_up_comment', 'categories', 'institution')
         widgets = {
             'quantity': forms.NumberInput(attrs={'min': 1, 'step': 1}),
-            'pick_up_date': CustomDateInput(),
-            'pick_up_time': CustomTimeInput(),
+            # 'pick_up_date': CustomDateInput(),
+            # 'pick_up_time': CustomTimeInput(),
             'pick_up_comment': forms.Textarea(attrs={'rows': 5, 'cols': 20}),
         }
 
@@ -101,13 +111,16 @@ class DonationForm(forms.ModelForm):
 
 
 class IsTakenForm(forms.Form):
-    """ Form for setting 'is_taken' field in Donation model instances """
+    """
+    Form for setting 'is_taken' field of 'Donation' model
+    (form used in 'UserProfileView).
+    """
 
     def __init__(self, queryset, *args, **kwargs):
         super(IsTakenForm, self).__init__(*args, **kwargs)
 
         # ModelMultipleChoiceField used instead of BooleanField
-        # to be able to set 'is_taken' field for multiple Donation instances at once
+        # to be able to set 'is_taken' field for multiple Donation instances at once.
         self.fields['is_taken'] = forms.ModelMultipleChoiceField(queryset=queryset,
                                                                  widget=forms.CheckboxSelectMultiple)
 

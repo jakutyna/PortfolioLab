@@ -58,6 +58,7 @@
         </div>
       </div>
 
+      {# Visible for logged users only #}
       {% if not user.is_authenticated %}
         <a href="{% url 'register' %}" class="btn btn--large">Załóż konto</a>
       {% endif %}
@@ -72,9 +73,11 @@
       <div class="about-us--image"><img src="{% static 'charity_donation/images/about-us.jpg' %}" alt="People in circle" /></div>
     </section>
 
-     <section id="help" class="help">
-      <h2>Komu pomagamy?</h2>
 
+    <section id="help" class="help">
+    <h2>Komu pomagamy?</h2>
+
+      {# Navigation for 'help' slides #}
       <ul class="help--buttons">
         <li data-id="1"><a href="#" class="btn btn--without-border active">Fundacjom</a></li>
         <li data-id="2"><a href="#" class="btn btn--without-border">Organizacjom pozarządowym</a></li>
@@ -83,7 +86,10 @@
 
       <!-- SLIDE 1 -->
       <div class="help--slides active" data-id="1">
-        <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
+        <p>
+          W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy.
+          Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.
+        </p>
 
         <ul class="help--slides-items">
           {% for institution in institutions %}
@@ -116,8 +122,8 @@
       <!-- SLIDE 2 -->
       <div class="help--slides" data-id="2">
         <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic officiis mollitia dolor, neque aspernatur accusamus debitis. Ducimus, officia. Quia, sunt illum! Non iste placeat ab ipsum alias
-          quos suscipit corporis!
+          W naszej bazie znajdziesz listę zweryfikowanych Organizacji Pozarządowych, z którymi współpracujemy.
+          Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.
         </p>
         <ul class="help--slides-items">
           {% for institution in institutions %}
@@ -151,7 +157,10 @@
 
       <!-- SLIDE 3 -->
       <div class="help--slides" data-id="3">
-        <p>Lorem ipsum dolor sit amet, his ocurreret persequeris ea, ad utinam laudem duo. Verterem adipisci partiendo eos ne, ea his reque quaeque recteque, ne quo lobortis intellegam.</p>
+        <p>
+          W naszej bazie znajdziesz listę zweryfikowanych Zbiórek Lokalnych, z którymi współpracujemy.
+          Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.
+        </p>
         <ul class="help--slides-items">
           {% for institution in institutions %}
             {% if institution.type == institution.LOCAL %}
@@ -178,7 +187,7 @@
         </ul>
         -->
       </div>
-    </section>
+  </section>
 {% endblock %}
 
 

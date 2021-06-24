@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
   const helpSection = document.querySelector(".help");
+  // creates object only if 'help' class exists in any tag on page
   if (helpSection !== null) {
     new Help(helpSection);
   }
